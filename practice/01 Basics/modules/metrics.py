@@ -9,6 +9,18 @@ def ED_distance(ts1, ts2):
     
     return math.sqrt(ed_dist)
 
+def arithmeticMeanDev(ts):
+  return np.sum(ts)/len(ts)
+
+
+def standartDev(ts):
+  s = 0
+  mean_square = arithmeticMeanDev(ts)**2
+  for item in ts:
+    s += item**2 - mean_square
+  
+  return math.sqrt(s / len(ts))
+
 
 def norm_ED_distance(ts1, ts2):
     """
@@ -27,10 +39,17 @@ def norm_ED_distance(ts1, ts2):
     norm_ed_dist : float
         The normalized Euclidean distance between ts1 and ts2.
     """
-
     norm_ed_dist = 0
 
-    # INSERT YOUR CODE 
+    n = len(ts1)
+    mu1 = arithmeticMeanDev(ts1)
+    mu2 = arithmeticMeanDev(ts2)
+    sigma1 = standartDev(ts1)
+    sigma2 = standartDev(ts2)
+    
+    ed = (np.dot(ts1, ts2) - n*mu1*mu2)/(n*sigma1*sigma2)
+
+    norm_ed_dist = math.sqrt(abs(2*n*(1 - ed)))
 
     return norm_ed_dist
 
